@@ -1,0 +1,19 @@
+public getSmallestPositiveInteger(int[,] arr) {
+	var n = arr.Length;
+	for(var i = 0; i < n; i++)
+	{
+		var val = arr[i];
+		if(val != i && val > 0) {				
+			do{
+				arr[i] = arr[val];
+				arr[val] = val;
+				val = arr[i];
+			}
+			while(val > 0 && val < n);
+			
+			if(val != i && val > 0){
+				return i;
+			}
+		}
+	}
+} 
