@@ -1,0 +1,51 @@
+/*
+ * Run-length encoding is a fast and simple method of encoding strings. 
+ * The basic idea is to represent repeated successive characters as a single count and character. 
+ * For example, the string "AAAABBBCCDAA" would be encoded as "4A3B2C1D2A".
+ * Implement run-length encoding and decoding. 
+ * You can assume the string to be encoded have no digits and consists solely of alphabetic characters. 
+ * You can assume the string to be decoded is valid.
+ */
+
+using System;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+    class Solution
+    {
+        public static string CompressString(string input)
+        {
+            if (string.IsNullOrEmpty(input)) { return string.Empty; }
+
+            var sb = new StringBuilder();
+            var currentlyProcessedChar = input[0];
+
+            var count = 1;
+            var n = input.Length;
+            for (var i = 1; i < n; i++)
+            {
+                if (input[i] != currentlyProcessedChar)
+                {
+                    sb.Append($"{count}{currentlyProcessedChar}");
+                    count = 1;
+                    currentlyProcessedChar = input[i];
+                }
+                else
+                {
+                    count++;
+                }
+            }
+
+            sb.Append($"{count}{currentlyProcessedChar}");
+
+            return sb.ToString();
+        }
+
+        static void Main(string[] args)
+        {
+            var result = CompressString("AAAABBBCCDAA");
+            Console.WriteLine(result);
+        }
+    }
+}
