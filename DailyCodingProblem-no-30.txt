@@ -19,10 +19,8 @@ namespace ConsoleApplication1
                 }
                 else
                 {
-                    if (s.Count > 0)
+                    while (s.Count > 0)
                     {
-                        //s.Push(i - 1);
-
                         var topIndex = s.Pop();
                         var heightDifference = Math.Max(0, arr[topIndex] - arr[topIndex + 1]);  // Won't go out of bounds because topIndex is always < i
                         var puddle = (i - topIndex - 1) * heightDifference;
@@ -39,7 +37,7 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             var arr = new[] {1, 2, 1, 3, 2, 1, 0, 4 };// {3, 0, 1, 3, 0, 5};
-            Console.WriteLine(arr);
+            Console.WriteLine(GetPuddles(arr));
         }
     }
 }
