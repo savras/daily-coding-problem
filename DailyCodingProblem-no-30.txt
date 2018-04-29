@@ -1,3 +1,11 @@
+/*
+ * You are given an array of non-negative integers that represents a two-dimensional elevation map where each element
+ * is unit-width wall and the integer is the height. Suppose it will rain and all spots between two walls get filled up.
+ * Compute how many units of water remain trapped on the map in O(N) time and O(1) space.
+ * For example, given the input [2, 1, 2], we can hold 1 unit of water in the middle.
+ * Given the input [3, 0, 1, 3, 0, 5], we can hold 3 units in the first index, 2 in the second, and 3 in the fourth index
+ * (we cannot hold 5 since it would run off to the left), so we can trap 8 units of water.
+ */
 using System;
 using System.Collections.Generic;
 
@@ -6,26 +14,36 @@ namespace ConsoleApplication1
     class Solution
     {
         public static int GetPuddles(int[] arr)
-        {   //  [3, 0, 1, 3, 0, 5]
+        {
             var s = new Stack<int>();
             var n = arr.Length;
 
             var result = 0;
             for (var i = 1; i < n; i++)
             {
-                if (arr[i - 1] > arr[i])
+                if (arr[i - 1] >= arr[i])
                 {
-                    s.Push(i - 1);
+                    if (s.Count  == 0 || (s.Count > 0 && s.Peek() != arr[i]))
+                    {
+                        s.Push(i - 1);
+                    }
                 }
-                else
+                else if (arr[i - 1] < arr[i])
                 {
+                    var tallestBetweenTopIndexAndI = arr[i - 1];
                     while (s.Count > 0)
                     {
-                        var topIndex = s.Pop();
-                        var heightDifference = Math.Max(0, arr[topIndex] - arr[topIndex + 1]);  // Won't go out of bounds because topIndex is always < i
-                        var puddle = (i - topIndex - 1) * heightDifference;
+                        var topIndex = s.Peek();
+                        var heightDifference = Math.Min(arr[topIndex], arr[i]);
+                        result += Math.Max(0, (i - topIndex - 1) * (heightDifference - tallestBetweenTopIndexAndI));
 
-                        result += puddle;
+                        if (arr[topIndex] > arr[i])
+                        {
+                            break;
+                        }
+
+                        s.Pop();
+                        tallestBetweenTopIndexAndI = Math.Max(tallestBetweenTopIndexAndI, arr[topIndex]);
                     }
                 }
             }
@@ -36,7 +54,12 @@ namespace ConsoleApplication1
 
         static void Main(string[] args)
         {
-            var arr = new[] {1, 2, 1, 3, 2, 1, 0, 4 };// {3, 0, 1, 3, 0, 5};
+            //var arr = new[] {1, 2, 1, 3, 2, 1, 0, 4 };  // 7
+            //var arr = new[] {3, 0, 1, 3, 0, 5};       // 8
+            //var arr = new[] {4, 1, 1, 1, 1, 3};       // 8
+            //var arr = new[] {1, 1, 1, 1, 1};       // 0
+            //var arr = new[] {1, 2, 3, 2, 1};       // 0
+            var arr = new[] {3, 2, 1, 2, 3};       // 4
             Console.WriteLine(GetPuddles(arr));
         }
     }
