@@ -1,1 +1,33 @@
 /* Edit distance DP problem */
+public static int LevenshteinDist(string s1, string s2) 
+{
+	// s1 is row
+	// s2 is col
+	var s1Len = s1.Length + 1;
+	var s2Len = s2.Length + 1;
+
+	var arr = new int[s1Len, s2Len]();
+	
+	for(var i = 0; i < s2Len; i++) {	
+		arr[0][i] = 1;		
+	}
+	for(var i = 0; i < s1Len; i++) {
+		arr[i][0] = 1;		
+	}
+	
+	for(var row = 0; i < s1Len; i++) {
+		for(var col = 0; i < s2Len; i++) {
+			if(s1[row] == s2[col])
+			{
+				arr[row][col] = arr[row - 1][col - 1];
+			}
+			else 
+			{
+				arr[row][col] = Math.Min(Math.Min(arr[row - 1][col - 1], arr[row][col - 1]), arr[row - 1][col]);
+			}
+		}
+	}
+	
+	return arr[s1Len -1, s2Len - 1];
+}
+
