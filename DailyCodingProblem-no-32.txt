@@ -1,8 +1,19 @@
 public static void GetRunningMedian(int[] arr) {
+	var minHeapLen = 0;
+	var maxHeapLen = 0;
 	var n = arr.Length;
 	var minHeap = new MinHeap();
 	var maxHeap = new MaxHeap();
 }
 
-public static void ExtractMin(int[] arr) {
+public static int ExtractMin(int[] heap) {
+}
+
+public static int ExtractMax(int[] heap) {
+}
+
+public static void BalanceHeaps(int[] minHeap, int[] maxHeap) {
+}
+
+public static int GetMedian(int[] minHeap, int[] maxHeap, int minHeapLen, int maxHeapLen) {
 }
